@@ -16,11 +16,25 @@ export default function initBugsController(db) {
     }
   };
 
-  const post = async (req, res) => {
+  const postBug = async (req, res) => {
     console.log(req.body);
+    try {
+      const newBug = await db.Bug.create({
+        problem: req.body.problem,
+        errorText: req.body.errorText,
+        commit: req.body.commit,
+        featureId: req.body.featureId,
+      });
+
+      console.log('newBug', newBug);
+      res.send({ newBug });
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
 
   return {
-    index, oneBug, post,
+    index, oneBug, postBug,
   };
 }
